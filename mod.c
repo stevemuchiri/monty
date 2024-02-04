@@ -1,34 +1,41 @@
 #include "monty.h"
-
 /**
- * mod_op - Computes the rest of the division of the second top element by the
- * top element
- * @stack: Double pointer to the beginning of the stack
- * @line_number: Current line number in the Monty bytecode file
- *
- * Description: Computes the rest of the division of the second top element by
- * the top element.
- *              The result is stored in the second top element.
- *              The top element of the stack is removed.
- */
-void mod_op(stack_t **stack, unsigned int line_number)
+ * f_mod - computes the rest division of the second
+ * top element of the stack by the top element of the stack
+ * @head: head
+ * @counter: line_number
+ * Return: no return
+*/
+void f_mod(stack_t **head, unsigned int counter)
 {
-	stack_t *temp;
+	stack_t *h;
+	int len = 0, aux;
 
-	if (*stack == NULL || (*stack)->next == NULL)
+	h = *head;
+	while (h)
 	{
-		fprintf(stderr, "L%u: can't mod, stack too short\n", line_number);
+		h = h->next;
+		len++;
+	}
+	if (len < 2)
+	{
+		fprintf(stderr, "L%d: can't mod, stack too short\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
 		exit(EXIT_FAILURE);
 	}
-
-	if ((*stack)->n == 0)
+	h = *head;
+	if (h->n == 0)
 	{
-		fprintf(stderr, "L%u: division by zero\n", line_number);
+		fprintf(stderr, "L%d: division by zero\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
 		exit(EXIT_FAILURE);
 	}
-
-	(*stack)->next->n %= (*stack)->n;
-	temp = *stack;
-	*stack = (*stack)->next;
-	free(temp);
+	aux = h->next->n % h->n;
+	h->next->n = aux;
+	*head = h->next;
+	free(h);
 }

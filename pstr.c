@@ -1,29 +1,25 @@
 #include "monty.h"
-
 /**
- * pstr_op - Print the string starting at the top of the stack
- * @stack: Double pointer to the beginning of the stack
- * @line_number: Current line number in the Monty bytecode file
- *
- * Description: Prints the string starting at the top of the stack,
- * followed by a new line.
- *              Stops printing when reaching the end of the stack or a
- *              non-printable character.
- */
-void pstr_op(stack_t **stack, unsigned int line_number)
+ * f_pstr - prints the string starting at the top of the stack,
+ * followed by a new
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+*/
+void f_pstr(stack_t **head, unsigned int counter)
 {
-	stack_t *current = *stack;
+	stack_t *h;
+	(void)counter;
 
-	(void)line_number; /* Unused parameter */
-
-	while (current != NULL && current->n != 0)
+	h = *head;
+	while (h)
 	{
-		if (current->n < 0 || current->n > 127 || !isprint(current->n))
-		break;
-
-	printf("%c", current->n);
-	current = current->next;
+		if (h->n > 127 || h->n <= 0)
+		{
+			break;
+		}
+		printf("%c", h->n);
+		h = h->next;
 	}
-
 	printf("\n");
 }
